@@ -20,6 +20,12 @@ fi
 
 bundle check >/dev/null 2>&1 || bundle install --path vendor --local
 
+BERKSCHECK=`bundle exec vagrant plugin list | grep vagrant-berkshelf`
+if [ -z $BERKSCHECK ]; then
+  bundle exec vagrant plugin install vagrant-berkshelf
+fi
+
+
 bundle exec vagrant up || error_exit "Failed to launch VMs via Vagrant"
 
 mkdir "$dot_chef" >/dev/null 2>&1 || true
